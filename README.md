@@ -93,7 +93,7 @@ npx hardhat compile
 
 ### 2. Deploy to testnet (Sepolia/Mumbai)
 
-npx hardhat run scripts/deploy.js --network sepolia
+npx hardhat run scripts/deploy.js --network sepolia (result 0xA9e0dF2dcEF5f532167f0C9Bd14d4D437e502c5f)
 
 Copy the deployed contract address and update it in your `App.js` in frontend.
 
