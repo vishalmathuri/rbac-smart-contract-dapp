@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import ABI from "./RBAC_ABI.json";
 
-const CONTRACT_ADDRESS = "0x24CBAD66AD83D55be554973DdE35a1f91E507DF6";
+const CONTRACT_ADDRESS = "0xA9e0dF2dcEF5f532167f0C9Bd14d4D437e502c5f";
 
 const ROLE_IDS = {
   Admin: ethers.id("DEFAULT_ADMIN_ROLE"),
