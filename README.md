@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+# Leafny RBAC DApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A decentralized application implementing **Role-Based Access Control (RBAC)** using a Solidity smart contract and a React + Ethers.js frontend. Built to support real-world use cases for CMS, E-commerce dashboards, and booking/learning platforms at Leafny.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- Roles: `Admin`, `Editor`, and `Viewer` using OpenZeppelin's `AccessControl`
+- Admin can assign roles to users
+- Role-based access to features like `addEvent()`
+- MetaMask integration and wallet-based login
+- Frontend conditionally renders UI based on connected user’s role
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📁 Project Structure
 
-### `npm test`
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+rbac-smart-contract-dapp/
+│
+├── contracts/
+│   └── RBACManager.sol           # Solidity contract using AccessControl
+│
+├── scripts/
+│   └── deploy.js                 # Script to deploy contract on Sepolia or Mumbai
+│
+├── test/
+│   └── RBACManager.test.js       # Unit tests using Chai/Mocha
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.js                # React app with MetaMask integration
+│   │   ├── index.js
+│   │   └── RBAC\_ABI.json         # Copied ABI from build
+│   └── package.json
+│
+├── .env                          # Environment variables (PRIVATE\_KEY, RPC\_URL)
+├── hardhat.conf
+````
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔧 Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js >= 16
+- MetaMask Extension
+- A Sepolia or Mumbai testnet wallet with ETH/MATIC
+- Alchemy or Infura RPC endpoint
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📦 Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Clone the repo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+git clone https://github.com/your-username/rbac-smart-contract-dapp.git
+cd rbac-smart-contract-dapp
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 2. Install backend dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+npm install --save-dev hardhat
+npm install @nomicfoundation/hardhat-toolbox dotenv
+npm install @openzeppelin/contracts
 
-## Learn More
+### 3. Install frontend dependencies
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+cd frontend
+npm install
+npm install ethers
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Replace the code of frontend/src/App.js from app.js. 
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🌐 Environment Setup
 
-### Analyzing the Bundle Size
+Edit `.env` file in the root directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+env
+PRIVATE_KEY=your_private_key
+RPC_URL=https://rpc-sepolia.g.alchemy.com/v2/your-api-key
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🧾 Compile & Deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 1. Compile the contract
 
-### Deployment
+npx hardhat compile
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 2. Deploy to testnet (Sepolia/Mumbai)
 
-### `npm run build` fails to minify
+npx hardhat run scripts/deploy.js --network sepolia
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Copy the deployed contract address and update it in your `App.js` in frontend.
+
+---
+
+## 🖥️ Frontend Setup
+
+### 1. Go to frontend
+
+cd frontend
+
+### 2. Update contract address & ABI in `src/App.js`
+
+Replace:
+
+```js
+const contractAddress = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+const ABI = require("./RBAC_ABI.json");
+```
+
+You can get the ABI from:
+
+```
+artifacts/contracts/RBACManager.sol/RBACManager.json
+```
+
+Copy that JSON and paste into `frontend/src/RBAC_ABI.json`.
+
+### 3. Start the frontend
+
+```bash
+npm start
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+npx hardhat test
+```
+
+---
+
+## 👤 Roles Description
+
+* **Admin**
+
+  * Can assign roles to others
+  * Full access
+* **Editor**
+
+  * Can add or edit events/content
+* **Viewer**
+
+  * Read-only access
+
+---
+
+## 📚 Integration Notes
+
+* The RBACManager.sol contract is reusable across different Leafny DApps
+* Ensure role assignments happen from an Admin wallet using the Hardhat console or via contract methods
+
+---
+
+## ✅ Success Criteria
+
+* Smart contract compiles and deploys without errors
+* Role-based functions behave as expected
+* UI dynamically adjusts based on role
+* Clean commit history and comments
+
+---
+
+## 📜 License
+
+MIT License – Use freely with attribution
+
+```
